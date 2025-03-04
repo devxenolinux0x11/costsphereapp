@@ -1,0 +1,1133 @@
+/* HomePage.css */
+:root {
+   --primary: #007bff;
+   --bg-gradient: linear-gradient(to right, #6a82fb, #fc5c7d);
+   --text-light: #6c757d;
+   --border-radius: 12px;
+   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-page {
+   overflow: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+   position: relative;
+   padding: 8rem 0 4rem;
+   background: var(--bg-gradient);
+   color: white;
+   margin-bottom: 4rem;
+}
+
+.hero-gradient {
+   position: absolute;
+   inset: 0;
+   background: linear-gradient(to top right, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+}
+
+.hero-content {
+   position: relative;
+   z-index: 1;
+   text-align: center;
+   max-width: 800px;
+   margin: 0 auto;
+}
+
+.hero-content h1 {
+   font-size: 3.5rem;
+   margin-bottom: 1.5rem;
+   line-height: 1.2;
+}
+
+.hero-content p {
+   font-size: 1.25rem;
+   margin-bottom: 2rem;
+   opacity: 0.9;
+}
+
+/* Search Container */
+.search-container {
+   position: relative;
+   max-width: 600px;
+   margin: 0 auto;
+}
+
+.search-container input {
+   width: 100%;
+   padding: 1.25rem 1.5rem;
+   padding-left: 3rem;
+   border: none;
+   border-radius: 16px;
+   background: rgba(0, 0, 0, 0);
+   backdrop-filter: blur(6px);
+   color: rgb(0, 0, 0);
+   font-size: 1.1rem;
+}
+
+.search-container input::placeholder {
+   color: rgba(0, 0, 0, 0.8);
+}
+
+.search-container .search-icon {
+   position: absolute;
+   left: 1.5rem;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 1.5rem;
+}
+
+/* Specific styles for the search container under Indian Cost Analysis */
+.country-grid .indian-search-container {
+   position: relative;
+   max-width: 600px;
+   margin: 2rem auto; /* Adds spacing above and below for better placement */
+}
+
+/* Input field styling */
+.country-grid .indian-search-container input {
+   width: 100%;
+   padding: 1rem 1.5rem;
+   padding-left: 3rem; /* Space for the search icon */
+   border: 2px solid var(--primary); /* Clear border for visibility */
+   border-radius: 16px;
+   background: #ffffff; /* White background to match the site but with contrast */
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+   color: #333; /* Dark text for readability */
+   font-size: 1.1rem;
+   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Placeholder text */
+.country-grid .indian-search-container input::placeholder {
+   color: #6c757d; /* Light gray for contrast, matches --text-light */
+   opacity: 1; /* Ensures placeholder is fully visible */
+}
+
+/* Focus state for better interaction feedback */
+.country-grid .indian-search-container input:focus {
+   outline: none;
+   border-color: #0056b3; /* Darker blue on focus */
+   box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Glow effect */
+}
+
+/* Search icon styling */
+.country-grid .indian-search-container .search-icon {
+   position: absolute;
+   left: 1.25rem;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 1.5rem;
+   color: var(--primary); /* Matches the primary theme color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+   .country-grid .indian-search-container input {
+       padding: 0.75rem 1rem;
+       padding-left: 2.5rem;
+       font-size: 0.9rem;
+   }
+
+   .country-grid .indian-search-container .search-icon {
+       left: 1rem;
+       font-size: 1.2rem;
+   }
+}
+
+@media (min-width: 401px) and (max-width: 768px) {
+   .country-grid .indian-search-container input {
+       padding: 1rem 1.25rem;
+       font-size: 1rem;
+   }
+}
+
+@media (min-width: 1025px) {
+   .country-grid .indian-search-container {
+       max-width: 700px;
+   }
+
+   .country-grid .indian-search-container input {
+       padding: 1.25rem 2rem;
+       font-size: 1.2rem;
+   }
+}
+
+/* Stats Section */
+.stats-section {
+   padding: 4rem 0;
+}
+
+/* Stat Card */
+.stat-card {
+   background: white;
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+   padding: 2rem;
+   text-align: center;
+   transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+   transform: translateY(-5px);
+}
+
+.stat-card .stat-header {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.75rem;
+   margin-bottom: 1rem;
+}
+
+.stat-card .stat-header h3 {
+   font-size: 1.25rem;
+   margin: 0;
+}
+
+.stat-card .stat-header .stat-icon {
+   font-size: 2rem;
+   color: var(--primary);
+}
+
+.stat-card .stat-content .stat-value {
+   font-size: 2rem;
+   font-weight: 600;
+   margin-right: 0.5rem;
+}
+
+.stat-card .stat-content .stat-trend {
+   font-size: 0.9rem;
+   display: flex;
+   align-items: center;
+   gap: 0.25rem;
+}
+
+.stat-card .stat-content .stat-trend.positive {
+   color: hsl(120, 60%, 40%);
+}
+
+.stat-card .stat-content .stat-trend.negative {
+   color: hsl(0, 60%, 40%);
+}
+
+/* Country Grid Section (Used for both Global and Indian) */
+.country-grid,
+.indian-city-grid {
+   padding: 4rem 0;
+}
+
+.country-grid__container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   gap: 2rem;
+}
+
+/* Country Card */
+.country-card {
+   border: none;
+   border-radius: var(--border-radius);
+   background: white;
+   transition: all 0.3s ease;
+   box-shadow: var(--shadow);
+   cursor: pointer;
+   position: relative;
+}
+
+.country-card:hover {
+   transform: translateY(-5px);
+}
+
+.country-card__header {
+   padding: 1.5rem;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.country-card__title {
+   margin: 0;
+   transition: color 0.3s ease;
+}
+
+.country-card:hover .country-card__title {
+   color: var(--primary);
+}
+
+.country-card__rank {
+   background: var(--primary);
+   color: white;
+   padding: 0.25rem 0.75rem;
+   border-radius: 8px;
+   font-weight: 600;
+}
+
+.country-card__body {
+   padding: 1.5rem;
+}
+
+.country-card__metric {
+   margin-bottom: 1rem;
+}
+
+.country-card__metric span {
+   display: block;
+   font-size: 0.9rem;
+   color: var(--text-light);
+   margin-bottom: 0.25rem;
+}
+
+.country-card__progress-bar {
+   height: 8px;
+   background: rgba(0, 0, 0, 0.05);
+   border-radius: 4px;
+   overflow: hidden;
+}
+
+.country-card__progress-fill {
+   height: 100%;
+   background: var(--primary);
+   border-radius: 4px;
+}
+
+.country-card__metric-value {
+   display: block;
+   text-align: right;
+   margin-top: 0.25rem;
+   font-size: 0.8rem;
+   color: var(--text-light);
+}
+
+.country-card__heart {
+   position: absolute;
+   top: 0.5rem;
+   right: 0.5rem;
+   font-size: 1.5rem;
+   color: rgba(0, 0, 0, 0.2);
+   cursor: pointer;
+   transition: color 0.3s ease;
+}
+
+.country-card__heart:hover,
+.country-card__heart.active {
+   color: red;
+}
+
+/* Pagination */
+.pagination {
+   display: flex;
+   justify-content: center;
+   margin-top: 2rem;
+}
+
+.page-number {
+   padding: 0.5rem 0.75rem;
+   border: 1px solid var(--primary);
+   background: white;
+   color: var(--primary);
+   cursor: pointer;
+   margin: 0 0.25rem;
+   border-radius: 4px;
+   transition: all 0.3s ease;
+}
+
+.page-number:hover,
+.page-number.active {
+   background: var(--primary);
+   color: white;
+}
+
+/* Recommendation Section */
+.recommendation-section,
+.indian-recommendation-section {
+   padding: 4rem 0;
+}
+
+/* Recommendation Type Buttons */
+.recommendation-type-buttons {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.5rem;
+   margin-bottom: 1rem;
+   justify-content: center;
+}
+
+.recommendation-type-buttons .btn {
+   font-size: 0.8rem;
+   padding: 0.3rem 0.6rem;
+   white-space: nowrap;
+}
+
+/* Recommendation Logic Buttons */
+.recommendation-logic-buttons {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.5rem;
+   margin-bottom: 1rem;
+   justify-content: center;
+}
+
+.recommendation-logic-buttons .btn {
+   font-size: 0.8rem;
+   padding: 0.3rem 0.6rem;
+   white-space: nowrap;
+}
+
+.recommendation-card {
+   background: white;
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+   padding: 2rem;
+}
+
+.recommendation-card__header {
+   display: flex;
+   align-items: center;
+   margin-bottom: 1rem;
+}
+
+.recommendation-card__flag {
+   width: 75px;
+   height: auto;
+   margin-right: 1rem;
+   border-radius: 4px;
+}
+
+.recommendation-card__chart {
+   margin-bottom: 1rem;
+}
+
+/* News Section */
+.news-section {
+   padding: 4rem 0;
+}
+
+.news-section h4 {
+   font-size: 1.5rem;
+   margin-bottom: 1.5rem;
+   color: #333;
+}
+
+.news-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+   gap: 20px;
+}
+
+/* News Card */
+.news-card {
+   border: none;
+   border-radius: var(--border-radius);
+   background: white;
+   box-shadow: var(--shadow);
+   transition: transform 0.3s ease;
+}
+
+.news-card:hover {
+   transform: translateY(-5px);
+}
+
+.card-img {
+   width: 100%;
+   height: 200px;
+   object-fit: cover;
+   border-top-left-radius: var(--border-radius);
+   border-top-right-radius: var(--border-radius);
+}
+
+.news-card .card-body {
+   padding: 1.5rem;
+}
+
+.news-card .card-title {
+   font-size: 1.25rem;
+   margin-bottom: 0.75rem;
+   color: #333;
+}
+
+.card-description {
+   font-size: 0.9rem;
+   color: var(--text-light);
+   margin-bottom: 1rem;
+   display: -webkit-box;
+   -webkit-line-clamp: 3;
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.news-details {
+   font-size: 0.85rem;
+   color: var(--text-light);
+   margin-bottom: 1rem;
+}
+
+.news-details p {
+   margin: 0.25rem 0;
+}
+
+/* Category Buttons */
+.category-buttons {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   margin-bottom: 20px;
+   justify-content: center;
+}
+
+.category-buttons .btn {
+   padding: 8px 16px;
+   font-size: 14px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+/* Comparison Section */
+.comparison-section,
+.indian-comparison-section {
+   padding: 4rem 0;
+}
+
+.comparison-grid {
+   display: flex;
+   gap: 2rem;
+   justify-content: center;
+}
+
+.comparison-card {
+   background: white;
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+   padding: 2rem;
+   text-align: center;
+   width: 300px;
+}
+
+.comparison-placeholder {
+   background: rgba(0, 0, 0, 0.05);
+   border-radius: var(--border-radius);
+   padding: 2rem;
+   text-align: center;
+   width: 300px;
+}
+
+/* Loading Container */
+.loading-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 200px;
+}
+
+/* Error Message */
+.error-message {
+   text-align: center;
+   color: red;
+   padding: 1rem;
+}
+
+/* Country Modal Styles */
+.country-modal .modal-content {
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+}
+
+.country-modal__header {
+   background: var(--primary);
+   color: white;
+   border-bottom: none;
+}
+
+.country-modal__title {
+   margin: 0;
+   font-size: 1.5rem;
+}
+
+.country-modal__body {
+   padding: 2rem;
+}
+
+.country-modal__details {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+}
+
+.country-modal__flag {
+   width: 100%;
+   max-width: 100px;
+   height: auto;
+   object-fit: contain;
+   border-radius: 8px;
+   margin-bottom: 1rem;
+}
+
+.country-modal__chart {
+   margin-top: 1rem;
+   width: 100%;
+}
+
+/* Indian City Modal Styles */
+.city-modal .modal-content {
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+}
+
+.city-modal__header {
+   background: var(--primary);
+   color: white;
+   border-bottom: none;
+}
+
+.city-modal__title {
+   margin: 0;
+   font-size: 1.5rem;
+}
+
+.city-modal__body {
+   padding: 2rem;
+}
+
+.city-modal__details {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+}
+
+.city-modal__flag {
+   width: 100%;
+   max-width: 100px;
+   height: auto;
+   object-fit: contain;
+   border-radius: 8px;
+   margin-bottom: 1rem;
+}
+
+.city-modal__chart {
+   margin-top: 1rem;
+   width: 100%;
+}
+
+/* Alignment Fixes for Modal Details */
+.country-modal__details .row,
+.city-modal__details .row {
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+}
+
+.country-modal__details .col-md-6,
+.city-modal__details .col-md-6 {
+   padding: 15px;
+}
+
+.country-modal__details p,
+.city-modal__details p {
+   margin: 5px 0;
+   font-size: 14px;
+   line-height: 1.5;
+}
+
+.country-modal__details .text-left,
+.city-modal__details .text-left {
+   text-align: left;
+}
+
+/* Weather Styles */
+.weather-info {
+   margin-top: 15px;
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   background-color: #f9f9f9;
+   cursor: pointer;
+}
+
+.weather-info h4 {
+   font-size: 1.2em;
+   margin-bottom: 5px;
+}
+
+.weather-info img {
+   width: 50px;
+   height: 50px;
+   margin-right: 10px;
+   vertical-align: middle;
+}
+
+.weather-modal .modal-content {
+   border-radius: var(--border-radius);
+   box-shadow: var(--shadow);
+}
+
+.weather-modal .modal-header {
+   background: var(--primary);
+   color: white;
+   border-bottom: none;
+}
+
+.weather-modal .modal-title {
+   margin: 0;
+   font-size: 1.5rem;
+}
+
+.weather-modal .modal-body {
+   padding: 2rem;
+}
+
+.forecast-day {
+   margin-bottom: 1rem;
+   padding: 1rem;
+   border: 1px solid #ddd;
+   border-radius: var(--border-radius);
+}
+
+.forecast-day h5 {
+   margin-bottom: 0.5rem;
+}
+
+.forecast-day img {
+   width: 50px;
+   height: 50px;
+   margin-right: 10px;
+   vertical-align: middle;
+}
+
+.weather-container {
+   margin-bottom: 1rem;
+}
+
+.d-flex {
+   display: flex;
+}
+
+.flex-column {
+   flex-direction: column;
+}
+
+.mt-auto {
+   margin-top: auto;
+}
+
+/* Recommendation Buttons */
+.recommendation-type-buttons,
+.recommendation-logic-buttons {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   margin-bottom: 15px;
+   justify-content: center;
+}
+
+.recommendation-type-buttons button,
+.recommendation-logic-buttons button {
+   padding: 8px 16px;
+   font-size: 14px;
+   border-radius: 5px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.recommendation-type-buttons button.primary,
+.recommendation-logic-buttons button.primary {
+   background-color: #007bff;
+   color: white;
+   border-color: #007bff;
+}
+
+.recommendation-type-buttons button.outline-primary,
+.recommendation-logic-buttons button.outline-primary {
+   background-color: transparent;
+   color: #007bff;
+   border-color: #007bff;
+}
+
+.recommendation-type-buttons button:hover,
+.recommendation-logic-buttons button:hover {
+   background-color: #0056b3;
+   color: white;
+   border-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+   .hero-section .hero-content h1 {
+      font-size: 2.5rem;
+   }
+
+   .country-grid__container {
+      grid-template-columns: 1fr;
+   }
+
+   .comparison-grid {
+      flex-direction: column;
+      align-items: center;
+   }
+
+   .comparison-card,
+   .comparison-placeholder {
+      width: 100%;
+   }
+
+   .country-modal__details .row,
+   .city-modal__details .row {
+      flex-direction: column;
+   }
+
+   .country-modal__flag,
+   .city-modal__flag {
+      margin: 0 auto 1rem;
+   }
+
+   .recommendation-card__header {
+      flex-direction: column;
+      text-align: center;
+   }
+
+   .recommendation-card__flag {
+      margin: 0 auto 1rem;
+   }
+
+   .news-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .category-buttons {
+      flex-direction: column;
+      align-items: center;
+   }
+}
+
+/* Additional Responsive CSS for HomePage.css */
+
+/* Small Phones (≤400px) */
+@media (max-width: 400px) {
+   .hero-content h1 {
+      font-size: 2rem;
+   }
+
+   .hero-content p {
+      font-size: 1rem;
+   }
+
+   .search-container input {
+      padding: 0.75rem 1rem;
+      padding-left: 2.5rem;
+      font-size: 0.9rem;
+   }
+
+   .search-container .search-icon {
+      left: 1rem;
+      font-size: 1.2rem;
+   }
+
+   .stat-card {
+      padding: 1.5rem;
+   }
+
+   .stat-card .stat-value {
+      font-size: 1.5rem;
+   }
+
+   .country-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   }
+
+   .news-grid {
+      grid-template-columns: 1fr;
+   }
+
+   .recommendation-card {
+      padding: 1.5rem;
+   }
+
+   .recommendation-card__flag {
+      width: 50px;
+   }
+
+   .comparison-card {
+      width: 100%;
+      padding: 1.5rem;
+   }
+
+   .country-modal__body,
+   .city-modal__body,
+   .weather-modal .modal-body {
+      padding: 1rem;
+   }
+
+   .country-modal__flag,
+   .city-modal__flag {
+      max-width: 80px;
+   }
+}
+
+/* Large Phones (401px - 768px) - Refine existing 768px breakpoint */
+@media (min-width: 401px) and (max-width: 768px) {
+   .hero-content h1 {
+      font-size: 2.5rem; /* Matches existing, kept for clarity */
+   }
+
+   .hero-content p {
+      font-size: 1.1rem;
+   }
+
+   .search-container input {
+      padding: 1rem 1.25rem;
+      padding-left: 3rem;
+      font-size: 1rem;
+   }
+
+   .country-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   }
+
+   .news-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   }
+
+   .stat-card {
+      padding: 1.75rem;
+   }
+
+   .comparison-card {
+      width: 90%;
+   }
+
+   .recommendation-card__flag {
+      width: 60px;
+   }
+}
+
+/* Tablets (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+   .hero-content h1 {
+      font-size: 3rem;
+   }
+
+   .hero-content p {
+      font-size: 1.2rem;
+   }
+
+   .search-container input {
+      padding: 1.25rem 1.5rem;
+      font-size: 1.1rem;
+   }
+
+   .country-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+   }
+
+   .news-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   }
+
+   .stat-card {
+      padding: 2rem;
+   }
+
+   .comparison-grid {
+      flex-wrap: wrap;
+   }
+
+   .comparison-card {
+      width: 45%;
+   }
+
+   .recommendation-card {
+      padding: 2rem;
+   }
+
+   .recommendation-card__flag {
+      width: 70px;
+   }
+
+   .country-modal__details .row,
+   .city-modal__details .row {
+      flex-direction: row;
+   }
+
+   .country-modal__flag,
+   .city-modal__flag {
+      max-width: 90px;
+   }
+}
+
+/* Large Screens (1025px and above) */
+@media (min-width: 1025px) {
+   .hero-content h1 {
+      font-size: 4rem;
+   }
+
+   .hero-content p {
+      font-size: 1.35rem;
+   }
+
+   .search-container {
+      max-width: 700px;
+   }
+
+   .search-container input {
+      padding: 1.5rem 2rem;
+      font-size: 1.2rem;
+   }
+
+   .country-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   }
+
+   .news-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+   }
+
+   .stat-card {
+      padding: 2.5rem;
+   }
+
+   .stat-card .stat-value {
+      font-size: 2.5rem;
+   }
+
+   .comparison-card {
+      width: 25%;
+   }
+
+   .recommendation-card {
+      padding: 2.5rem;
+   }
+
+   .recommendation-card__flag {
+      width: 80px;
+   }
+}
+
+/* Ultra-Wide Screens (1440px and above) */
+@media (min-width: 1440px) {
+   .hero-content h1 {
+      font-size: 4.5rem;
+   }
+
+   .hero-content p {
+      font-size: 1.5rem;
+   }
+
+   .search-container {
+      max-width: 800px;
+   }
+
+   .country-grid__container {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+   }
+
+   .news-grid {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   }
+
+   .comparison-card {
+      width: 20%;
+   }
+}
+
+/* Fluid Typography Scaling */
+html {
+   font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1600 - 320)));
+}
+
+@media (max-width: 320px) {
+   html {
+      font-size: 14px;
+   }
+}
+
+@media (min-width: 1600px) {
+   html {
+      font-size: 16px;
+   }
+}
+
+/* Ensure no overflow on very small screens */
+@media (max-width: 400px) {
+   .home-page {
+      overflow-x: hidden;
+   }
+
+   .country-card,
+   .recommendation-card,
+   .stat-card,
+   .comparison-card,
+   .news-card {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+   }
+
+   .pagination {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+   }
+
+   .page-number {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+   }
+}
+
+/* Adjust modal content for better readability */
+@media (max-width: 768px) {
+   .country-modal__details p,
+   .city-modal__details p,
+   .weather-modal .forecast-day p {
+      font-size: 0.9rem;
+   }
+
+   .weather-info h4 {
+      font-size: 1rem;
+   }
+
+   .weather-info img {
+      width: 40px;
+      height: 40px;
+   }
+}
+
+/* Enhance button responsiveness */
+@media (max-width: 400px) {
+   .recommendation-type-buttons button,
+   .recommendation-logic-buttons button,
+   .category-buttons button {
+      padding: 6px 12px;
+      font-size: 12px;
+   }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+   .recommendation-type-buttons button,
+   .recommendation-logic-buttons button,
+   .category-buttons button {
+      padding: 8px 14px;
+      font-size: 13px;
+   }
+}
+
+@media (min-width: 1025px) {
+   .recommendation-type-buttons button,
+   .recommendation-logic-buttons button,
+   .category-buttons button {
+      padding: 10px 18px;
+      font-size: 15px;
+   }
+}
+
+/* Smooth transitions for dynamic layouts */
+.country-grid__container,
+.news-grid,
+.comparison-grid,
+.recommendation-card,
+.stat-card,
+.country-card,
+.news-card {
+   transition: all 0.3s ease-in-out;
+}
+

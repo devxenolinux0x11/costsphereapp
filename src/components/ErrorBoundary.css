@@ -1,0 +1,16 @@
+/* ErrorBoundary.css */
+.error-boundary {
+    padding: 20px;
+    border: 1px solid red;
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .error-boundary h2 {
+    margin-top: 0;
+  }
+  
+  .error-boundary details {
+    margin-top: 10px;
+  }
+  
