@@ -178,7 +178,7 @@ const HomePage = () => {
         variant: false,
         customizations: {
           greeting: "Yes",
-          greetingMessage: `Hi! How can I assist you today? 👋🏻`,
+          greetingMessage: `Hi! How can I assist you today?`,
           openByDefault: "No",
           pulse: "Yes",
           position: "right",
