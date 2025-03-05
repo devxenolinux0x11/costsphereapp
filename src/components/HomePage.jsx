@@ -6,20 +6,19 @@ import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import '../HomePage.css';
 
 // API Keys and Constants 
-const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (First) Replace with your Weather API key 
-//const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (Second) 
-//const GNEWS_API_TOKEN = '3809434254c049a5715029361eba512d'; // (First) Replace with your GNews API token 
-const GNEWS_API_TOKEN = 'e4638f91b41023e34c94790ddd7f067c'; // (Second) Replace with your GNews API token
-// Base URLs for APIs
+const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303';
+const GNEWS_API_TOKEN = 'e4638f91b41023e34c94790ddd7f067c';
 const REST_COUNTRIES_API = 'https://restcountries.com/v3.1';
 const WEATHER_API = 'https://api.weatherapi.com/v1';
 const GNEWS_API = 'https://gnews.io/api/v4';
 
 const HomePage = () => {
-  // State Declarations (unchanged)
+  // State Declarations
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
@@ -71,8 +70,9 @@ const HomePage = () => {
   const [indianNewsCategory, setIndianNewsCategory] = useState(null);
 
   const [chatbotReady, setChatbotReady] = useState(false);
+  const [mapPosition, setMapPosition] = useState([51.505, -0.09]);
 
-  // Fetch Global Data (unchanged, assumes static JSON files are served correctly)
+  // Fetch Global Data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -89,7 +89,7 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  // Fetch Indian Data (unchanged, assumes static JSON files are served correctly)
+  // Fetch Indian Data
   useEffect(() => {
     const fetchIndianData = async () => {
       try {
@@ -106,7 +106,7 @@ const HomePage = () => {
     fetchIndianData();
   }, []);
 
-  // Fetch News for Recommended Country (Global) - Updated with full URL
+  // Fetch News for Recommended Country
   useEffect(() => {
     const fetchNews = async () => {
       if (recommendedCountryDetails) {
@@ -132,7 +132,7 @@ const HomePage = () => {
     fetchNews();
   }, [recommendedCountryDetails, globalNewsCategory]);
 
-  // Fetch News for Recommended Indian City - Updated with full URL
+  // Fetch News for Recommended Indian City
   useEffect(() => {
     const fetchIndianNews = async () => {
       if (recommendedIndianCityDetails?.citySpecific?.city) {
@@ -158,7 +158,7 @@ const HomePage = () => {
     fetchIndianNews();
   }, [recommendedIndianCityDetails, indianNewsCategory]);
 
-  // Chatbot Integration (unchanged)
+  // Chatbot Integration
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js';
@@ -202,7 +202,30 @@ const HomePage = () => {
     };
   }, [selectedCountry]);
 
-  // Filter and Pagination Logic (unchanged)
+  // Update Map Position
+  useEffect(() => {
+    const updateMapPosition = async () => {
+      if (recommendedCountryDetails) {
+        const lat = recommendedCountryDetails.latlng?.[0] || 51.505;
+        const lng = recommendedCountryDetails.latlng?.[1] || -0.09;
+        setMapPosition([lat, lng]);
+      } else if (recommendedIndianCityDetails?.citySpecific?.city) {
+        try {
+          const response = await axios.get(
+            `https://nominatim.openstreetmap.org/search?q=${recommendedIndianCityDetails.citySpecific.city},India&format=json&limit=1`
+          );
+          if (response.data.length > 0) {
+            setMapPosition([parseFloat(response.data[0].lat), parseFloat(response.data[0].lon)]);
+          }
+        } catch (err) {
+          console.error('Error fetching city coordinates:', err);
+        }
+      }
+    };
+    updateMapPosition();
+  }, [recommendedCountryDetails, recommendedIndianCityDetails]);
+
+  // Filter and Pagination Logic
   const filteredCountries = useMemo(() => {
     return countries.filter(country =>
       country.country?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -228,7 +251,7 @@ const HomePage = () => {
   const paginate = useCallback((pageNumber) => setCurrentPage(pageNumber), []);
   const paginateIndian = useCallback((pageNumber) => setIndianCurrentPage(pageNumber), []);
 
-  // Handle Clicks and Favorites - Updated with full URLs
+  // Handle Clicks and Favorites
   const handleCountryClick = useCallback(async (country) => {
     setSelectedCountry(country);
     try {
@@ -286,7 +309,7 @@ const HomePage = () => {
 
   const isIndianFavorite = useCallback((city) => !!favoriteIndianCities.find(item => item.id === city.id), [favoriteIndianCities]);
 
-  // Chart Data (unchanged)
+  // Chart Data
   const chartData = useMemo(() => ({
     labels: ['Cost of Living', 'Rent', 'Groceries', 'Restaurant Prices', 'Purchasing Power'],
     datasets: [
@@ -325,7 +348,7 @@ const HomePage = () => {
     ],
   }), [selectedIndianCity]);
 
-  // Recommendation Logic - Updated with full URLs
+  // Recommendation Logic
   useEffect(() => {
     const recommendCountry = async () => {
       if (favoriteCountries.length > 0 && favoriteCountries.length <= 3) {
@@ -334,10 +357,8 @@ const HomePage = () => {
 
         if (recommendationLogic === 'highest') {
           recommended = [...favoriteCountries].sort((a, b) => (b[validRecommendationType] || 0) - (a[validRecommendationType] || 0))[0];
-        } else if (recommendationLogic === 'lowest') {
-          recommended = [...favoriteCountries].sort((a, b) => (a[validRecommendationType] || 0) - (b[validRecommendationType] || 0))[0];
         } else {
-          recommended = [...favoriteCountries].sort((a, b) => (b[validRecommendationType] || 0) - (a[validRecommendationType] || 0))[0];
+          recommended = [...favoriteCountries].sort((a, b) => (a[validRecommendationType] || 0) - (b[validRecommendationType] || 0))[0];
         }
 
         if (recommended) {
@@ -378,10 +399,8 @@ const HomePage = () => {
 
         if (indianRecommendationLogic === 'highest') {
           recommended = [...favoriteIndianCities].sort((a, b) => (b[validRecommendationType] || 0) - (a[validRecommendationType] || 0))[0];
-        } else if (indianRecommendationLogic === 'lowest') {
-          recommended = [...favoriteIndianCities].sort((a, b) => (a[validRecommendationType] || 0) - (b[validRecommendationType] || 0))[0];
         } else {
-          recommended = [...favoriteIndianCities].sort((a, b) => (b[validRecommendationType] || 0) - (a[validRecommendationType] || 0))[0];
+          recommended = [...favoriteIndianCities].sort((a, b) => (a[validRecommendationType] || 0) - (b[validRecommendationType] || 0))[0];
         }
 
         if (recommended) {
@@ -409,7 +428,7 @@ const HomePage = () => {
     recommendIndianCity();
   }, [favoriteIndianCities, indianRecommendationType, indianRecommendationLogic]);
 
-  // Recommendation Chart Data (unchanged)
+  // Recommendation Chart Data
   const recommendationChartData = useMemo(() => {
     const datasets = favoriteCountries.slice(0, 3).map((country, index) => {
       const color = ['rgb(75, 192, 192)', 'rgb(255, 99, 132)', 'rgb(54, 162, 235)'][index % 3];
@@ -456,7 +475,7 @@ const HomePage = () => {
     };
   }, [favoriteIndianCities]);
 
-  // Weather Fetching - Updated with full URLs
+  // Weather Fetching
   useEffect(() => {
     const fetchWeather = async () => {
       if (recommendedCountryDetails) {
@@ -513,7 +532,7 @@ const HomePage = () => {
     fetchIndianWeather();
   }, [recommendedIndianCityDetails]);
 
-  // Component Definitions and Handlers (unchanged)
+  // Component Definitions and Handlers
   const StatCard = ({ icon: Icon, title, value, trend }) => (
     <div className="stat-card">
       <div className="stat-header">
@@ -547,14 +566,12 @@ const HomePage = () => {
   const closeWeatherModal = () => setShowWeatherModal(false);
   const openIndianWeatherModal = () => setShowIndianWeatherModal(true);
   const closeIndianWeatherModal = () => setShowIndianWeatherModal(false);
-
   const handleRecommendationLogicChange = useCallback((logic) => setRecommendationLogic(logic), []);
   const handleIndianRecommendationLogicChange = useCallback((logic) => setIndianRecommendationLogic(logic), []);
-
   const handleGlobalNewsCategorySelect = (category) => setGlobalNewsCategory(category);
   const handleIndianNewsCategorySelect = (category) => setIndianNewsCategory(category);
 
-  // JSX Return (unchanged)
+  // JSX Return
   return (
     <div className="home-page">
       <ToastContainer />
@@ -817,6 +834,21 @@ const HomePage = () => {
                   </div>
                 </Col>
               </Row>
+              <Row>
+                <Col md={12}>
+                  <div className="map-container">
+                    <MapContainer center={mapPosition} zoom={5} style={{ height: '300px', width: '100%' }}>
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      />
+                      <Marker position={mapPosition}>
+                        <Popup>{recommendedCountry.country}</Popup>
+                      </Marker>
+                    </MapContainer>
+                  </div>
+                </Col>
+              </Row>
             </div>
           ) : favoriteCountries.length <= 3 ? (
             <p>Add countries to favorites to get a recommendation.</p>
@@ -979,6 +1011,21 @@ const HomePage = () => {
                   ) : null}
                   <div className="recommendation-card__chart mt-auto">
                     <Line data={indianRecommendationChartData} />
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col md={12}>
+                  <div className="map-container">
+                    <MapContainer center={mapPosition} zoom={5} style={{ height: '300px', width: '100%' }}>
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      />
+                      <Marker position={mapPosition}>
+                        <Popup>{recommendedIndianCity.city}</Popup>
+                      </Marker>
+                    </MapContainer>
                   </div>
                 </Col>
               </Row>
@@ -1222,6 +1269,7 @@ const HomePage = () => {
           <Button variant="secondary" onClick={closeIndianWeatherModal}>Close</Button>
         </Modal.Footer>
       </Modal>
+      
 
       <div id="chatbot-container" className="chatbot-container"></div>
     </div>
