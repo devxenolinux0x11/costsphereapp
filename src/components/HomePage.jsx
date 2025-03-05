@@ -8,14 +8,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../HomePage.css';
 
-// API Keys and Constants
-const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (First) Replace with your Weather API key
-//const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (Second)
-//const GNEWS_API_TOKEN = '3809434254c049a5715029361eba512d'; // (First) Replace with your GNews API token
+// API Keys and Constants 
+const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (First) Replace with your Weather API key 
+//const WEATHER_API_KEY = 'e6a0f3bb7cf34efda16164737250303'; // (Second) 
+//const GNEWS_API_TOKEN = '3809434254c049a5715029361eba512d'; // (First) Replace with your GNews API token 
 const GNEWS_API_TOKEN = 'e4638f91b41023e34c94790ddd7f067c'; // (Second) Replace with your GNews API token
+// Base URLs for APIs
+const REST_COUNTRIES_API = 'https://restcountries.com/v3.1';
+const WEATHER_API = 'https://api.weatherapi.com/v1';
+const GNEWS_API = 'https://gnews.io/api/v4';
 
 const HomePage = () => {
-  // State Declarations (unchanged from your original)
+  // State Declarations (unchanged)
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
@@ -68,7 +72,7 @@ const HomePage = () => {
 
   const [chatbotReady, setChatbotReady] = useState(false);
 
-  // Fetch Global Data
+  // Fetch Global Data (unchanged, assumes static JSON files are served correctly)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,7 +89,7 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  // Fetch Indian Data
+  // Fetch Indian Data (unchanged, assumes static JSON files are served correctly)
   useEffect(() => {
     const fetchIndianData = async () => {
       try {
@@ -102,7 +106,7 @@ const HomePage = () => {
     fetchIndianData();
   }, []);
 
-  // Fetch News for Recommended Country (Global)
+  // Fetch News for Recommended Country (Global) - Updated with full URL
   useEffect(() => {
     const fetchNews = async () => {
       if (recommendedCountryDetails) {
@@ -111,7 +115,7 @@ const HomePage = () => {
         setNewsData([]);
         try {
           const response = await axios.get(
-            `/gnews/search?q=${recommendedCountryDetails.name.common}${globalNewsCategory ? `+${globalNewsCategory}` : ''}&token=${GNEWS_API_TOKEN}&lang=en&max=6`
+            `${GNEWS_API}/search?q=${recommendedCountryDetails.name.common}${globalNewsCategory ? `+${globalNewsCategory}` : ''}&token=${GNEWS_API_TOKEN}&lang=en&max=6`
           );
           setNewsData(response.data.articles || []);
         } catch (err) {
@@ -128,7 +132,7 @@ const HomePage = () => {
     fetchNews();
   }, [recommendedCountryDetails, globalNewsCategory]);
 
-  // Fetch News for Recommended Indian City
+  // Fetch News for Recommended Indian City - Updated with full URL
   useEffect(() => {
     const fetchIndianNews = async () => {
       if (recommendedIndianCityDetails?.citySpecific?.city) {
@@ -137,7 +141,7 @@ const HomePage = () => {
         setIndianNewsData([]);
         try {
           const response = await axios.get(
-            `/gnews/search?q=${recommendedIndianCityDetails.citySpecific.city}${indianNewsCategory ? `+${indianNewsCategory}` : ''}&token=${GNEWS_API_TOKEN}&lang=en&max=6`
+            `${GNEWS_API}/search?q=${recommendedIndianCityDetails.citySpecific.city}${indianNewsCategory ? `+${indianNewsCategory}` : ''}&token=${GNEWS_API_TOKEN}&lang=en&max=6`
           );
           setIndianNewsData(response.data.articles || []);
         } catch (err) {
@@ -224,11 +228,13 @@ const HomePage = () => {
   const paginate = useCallback((pageNumber) => setCurrentPage(pageNumber), []);
   const paginateIndian = useCallback((pageNumber) => setIndianCurrentPage(pageNumber), []);
 
-  // Handle Clicks and Favorites (updated with proxy endpoints)
+  // Handle Clicks and Favorites - Updated with full URLs
   const handleCountryClick = useCallback(async (country) => {
     setSelectedCountry(country);
     try {
-      const response = await axios.get(`/rest-countries/name/${country.country}?fullText=true`);
+      const response = await axios.get(
+        `${REST_COUNTRIES_API}/name/${country.country}?fullText=true`
+      );
       setCountryDetails(response.data[0]);
     } catch (err) {
       console.error('Error fetching country details:', err);
@@ -240,7 +246,9 @@ const HomePage = () => {
   const handleIndianCityClick = useCallback(async (city) => {
     setSelectedIndianCity(city);
     try {
-      const response = await axios.get(`/rest-countries/name/India?fullText=true`);
+      const response = await axios.get(
+        `${REST_COUNTRIES_API}/name/India?fullText=true`
+      );
       setIndianCityDetails({ ...response.data[0], citySpecific: city });
     } catch (err) {
       console.error('Error fetching Indian city details:', err);
@@ -317,7 +325,7 @@ const HomePage = () => {
     ],
   }), [selectedIndianCity]);
 
-  // Recommendation Logic (updated with proxy endpoints)
+  // Recommendation Logic - Updated with full URLs
   useEffect(() => {
     const recommendCountry = async () => {
       if (favoriteCountries.length > 0 && favoriteCountries.length <= 3) {
@@ -335,7 +343,9 @@ const HomePage = () => {
         if (recommended) {
           setRecommendedCountry(recommended);
           try {
-            const response = await axios.get(`/rest-countries/name/${recommended.country}?fullText=true`);
+            const response = await axios.get(
+              `${REST_COUNTRIES_API}/name/${recommended.country}?fullText=true`
+            );
             const countryDetails = response.data[0];
             setRecommendedCountryDetails(countryDetails);
             if (countryDetails.currencies) {
@@ -377,7 +387,9 @@ const HomePage = () => {
         if (recommended) {
           setRecommendedIndianCity(recommended);
           try {
-            const response = await axios.get(`/rest-countries/name/India?fullText=true`);
+            const response = await axios.get(
+              `${REST_COUNTRIES_API}/name/India?fullText=true`
+            );
             const indiaDetails = response.data[0];
             setRecommendedIndianCityDetails({ ...indiaDetails, citySpecific: recommended });
             setIndianCurrency('Indian Rupee');
@@ -444,7 +456,7 @@ const HomePage = () => {
     };
   }, [favoriteIndianCities]);
 
-  // Weather Fetching (updated with proxy endpoints)
+  // Weather Fetching - Updated with full URLs
   useEffect(() => {
     const fetchWeather = async () => {
       if (recommendedCountryDetails) {
@@ -454,7 +466,7 @@ const HomePage = () => {
         setForecastData(null);
         try {
           const response = await axios.get(
-            `/weather-api/forecast.json?key=${WEATHER_API_KEY}&q=${recommendedCountryDetails.name.common}&days=3`
+            `${WEATHER_API}/forecast.json?key=${WEATHER_API_KEY}&q=${recommendedCountryDetails.name.common}&days=3`
           );
           setWeatherData(response.data.current);
           setForecastData(response.data.forecast.forecastday);
@@ -482,7 +494,7 @@ const HomePage = () => {
         setIndianForecastData(null);
         try {
           const response = await axios.get(
-            `/weather-api/forecast.json?key=${WEATHER_API_KEY}&q=${recommendedIndianCityDetails.citySpecific.city}&days=3`
+            `${WEATHER_API}/forecast.json?key=${WEATHER_API_KEY}&q=${recommendedIndianCityDetails.citySpecific.city}&days=3`
           );
           setIndianWeatherData(response.data.current);
           setIndianForecastData(response.data.forecast.forecastday);
@@ -501,7 +513,7 @@ const HomePage = () => {
     fetchIndianWeather();
   }, [recommendedIndianCityDetails]);
 
-  // Component Definitions and Handlers (unchanged except for weather modal handlers)
+  // Component Definitions and Handlers (unchanged)
   const StatCard = ({ icon: Icon, title, value, trend }) => (
     <div className="stat-card">
       <div className="stat-header">
